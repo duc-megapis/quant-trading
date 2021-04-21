@@ -317,13 +317,11 @@ def get_asset(symbol):
     cleanData = dataFrame[dataFrame["Symbol"]==symbol]
     asset = pd.DataFrame(cleanData.head(365*2))
     asset.drop('Symbol', 1, inplace=True)
-    # df['Date'] = df["Date"].dt.strftime('YYYYMMDD')
-    asset['Date'] = pd.to_datetime(asset['Date'], format="%Y%m%d").dt.strftime('%Y-%m-%d')
+    asset['Date'] = pd.to_datetime(asset['Date'], format="%Y%m%d")
     asset = asset.iloc[::-1]
     asset.reset_index(drop=True, inplace=True)
-    # df['Adj Close'] = df['Close']
     asset.insert(5, 'Adj CLose', asset['Close'], True)
-    # df = df.set_index('Date')
+    asset = asset.set_index('Date')
     return asset
 
 def main():

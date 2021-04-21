@@ -114,21 +114,18 @@ def main():
     
     global ma1,ma2,stdate,eddate,ticker,slicer
 
-
-    ticker = "HSG"
-    # ticker=input('ticker:')
+    # ticker = "HSG"
+    ticker=input('ticker:')
 
     dataFrame = pd.read_csv("./data/HSX.csv")
     cleanData = dataFrame[dataFrame["Symbol"]==ticker]
-    df = pd.DataFrame(cleanData.head(180))
+    df = pd.DataFrame(cleanData.head(365*3))
     df.drop('Symbol', 1, inplace=True)
-    # df['Date'] = df["Date"].dt.strftime('YYYYMMDD')
-    df['Date'] = pd.to_datetime(df['Date'], format="%Y%m%d").dt.strftime('%Y-%m-%d')
+    df['Date'] = pd.to_datetime(df['Date'], format="%Y%m%d")
     df = df.iloc[::-1]
     df.reset_index(drop=True, inplace=True)
-    # df['Adj Close'] = df['Close']
-    df.insert(5, 'Adj CLose', df['Close'], True)
-    # df = df.set_index('Date')
+    df.insert(5, 'Adj Close', df['Close'], True)
+    df = df.set_index('Date')
 
     print(df.head())
     # print (df[:5])
@@ -154,7 +151,7 @@ def main():
     #if the dataset is too large, backtesting plot would look messy
     #you get too many markers cluster together
     # slicer=int(input('slicing:'))
-    slicer=2
+    slicer=700
     #downloading data
     # df=yf.download(ticker,start=stdate,end=eddate)
     
